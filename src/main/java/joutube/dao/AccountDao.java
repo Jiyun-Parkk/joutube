@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class AccountDao {
 
     public void createAccount(Account account) {
+        ChannelDao channelDao = new ChannelDao();
         String createAccountSQL = "insert into account (name,profile_image,email,password) " +
                 "values (?, ?, ?, ?)";
         try (
@@ -22,7 +23,8 @@ public class AccountDao {
             statement.setString(2, account.getProfileImage());
             statement.setString(3, account.getEmail());
             statement.setString(4, account.getPassword());
-            statement.executeUpdate();
+            int createdAccount = statement.executeUpdate();
+            channelDao.createChannel(createdAccount);
         } catch (SQLException e) {
             e.printStackTrace();
         }
