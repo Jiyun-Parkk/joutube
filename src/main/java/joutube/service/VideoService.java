@@ -2,10 +2,13 @@ package main.java.joutube.service;
 
 import main.java.joutube.dao.VideoDao;
 import main.java.joutube.io.Console;
+import main.java.joutube.view.JoutubeView;
 
 public class VideoService {
 
     private final VideoDao videoDao = new VideoDao();
+    private final JoutubeView joutubeView = JoutubeView.getJoutubeView();
+
 
     public void uploadVideo(){
 
@@ -19,5 +22,6 @@ public class VideoService {
         int videoLength = Console.readInt();
 
         videoDao.uploadVideo(owner, title, thumbnailImage, videoLength);
+        joutubeView.uploadVideoView();
     }
 }
