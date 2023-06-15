@@ -7,9 +7,11 @@ import main.java.joutube.service.VideoService;
 public class App {
     public static void main(String[] args) {
         AccountService accountService = new AccountService();
-        VideoService videoService = new VideoService();
+//        VideoService videoService = new VideoService();
+//        accountService.createAccount(); // 계정생성
+//        accountService.deleteAccount(3); // 계정삭제
+//        accountService.updateAccount(3); // 계정수정
+//        videoService.uploadVideo();
 
-//        accountService.createAccount();
-        videoService.uploadVideo();
     }
 }

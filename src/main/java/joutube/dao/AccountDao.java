@@ -1,14 +1,16 @@
 package main.java.joutube.dao;
 
+import main.java.joutube.domain.Account;
 import main.java.joutube.util.DBUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccountDao {
 
-    public void createAccount(String name, String profile_image, String email, String password) {
+    public void createAccount(Account account) {
         String createAccountSQL = "insert into account (name,profile_image,email,password) " +
                 "values (?, ?, ?, ?)";
         try (
@@ -16,19 +18,50 @@ public class AccountDao {
                 PreparedStatement statement = connection.prepareStatement(createAccountSQL);
 
         ) {
-            statement.setString(1, name);
-            statement.setString(2, profile_image);
-            statement.setString(3, email);
-            statement.setString(4, password);
+            statement.setString(1, account.getName());
+            statement.setString(2, account.getProfileImage());
+            statement.setString(3, account.getEmail());
+            statement.setString(4, account.getPassword());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    public int updateAccount(String name, String profile, String email, String password,int id) {
+        int affectedRow = 0;
+        String updateAccountSQL = "update account set name = ?, profile_image = ?, email = ?, password = ? where id = ?";
+        try (
+                Connection connection = DBUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(updateAccountSQL);
+        ) {
+            Account getAccount = findAccount(id);
+            if(name.length() == 0) {
+               name = getAccount.getName();
+            }
+            if(profile.length() == 0) {
+                profile = getAccount.getProfileImage();
+            }
+            if(email.length() == 0) {
+               email = getAccount.getEmail();
+            }
+            if(password.length() == 0) {
+               password = getAccount.getPassword();
+            }
+            statement.setString(1, name);
+            statement.setString(2, profile);
+            statement.setString(3, email);
+            statement.setString(4, password);
+            statement.setInt(5, id);
+            affectedRow = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return affectedRow;
+    }
 
     public int deleteAccount(int id) {
         int affectedRow = 0;
-        String deleteAccountSQL = "delete from joutube where id = ?";
+        String deleteAccountSQL = "delete from account where id = ?";
         try (
                 Connection connection = DBUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(deleteAccountSQL);
@@ -42,6 +75,31 @@ public class AccountDao {
         }
         return affectedRow;
     }
+
+    public Account findAccount(int id) {
+        String findAccountSQL = "select * from account where id = ?";
+        try (
+                Connection connection = DBUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(findAccountSQL);
+
+        ) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            Account account = Account.builder()
+                    .name(resultSet.getString("name"))
+                    .profileImage(resultSet.getString("profile_image"))
+                    .email(resultSet.getString("email"))
+                    .password(resultSet.getString("password")).build();
+            return  account;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
 }
 
 

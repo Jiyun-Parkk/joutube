@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class VideoDao {
 
     public void uploadVideo(int owner, String title, String thumbnailImage, int videoLength) {
-        String createVideoSQL = "insert into video (owner,title,thumbnail_image,video_length) " +
+        String createVideoSQL = "insert into video (channel_id,title,thumbnail_image,video_length) " +
                 "values (?, ?, ?, ?)";
         try (
                 Connection connection = DBUtil.getConnection();
