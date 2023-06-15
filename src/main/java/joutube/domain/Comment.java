@@ -9,8 +9,8 @@ import java.time.LocalDate;
 @Getter
 public class Comment {
     private int id;
-    private Video video;
-    private Account account;
+    private int video_id;
+    private int account_id;
     private String comment;
     private LocalDate created_at;
 

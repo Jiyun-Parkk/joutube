@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Builder
 public class Video {
     private int id;
-    private Video video;
+    private int channel_id;
     private String title;
     private String thumbnail_image;
     private String video_length;
