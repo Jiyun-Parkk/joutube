@@ -15,6 +15,8 @@ public class ChannelDao {
                 PreparedStatement statement = connection.prepareStatement(createChannelSQL);
         ) {
             statement.setInt(1, id);
+            statement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

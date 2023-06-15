@@ -8,8 +8,8 @@ public class App {
     public static void main(String[] args) {
         AccountService accountService = new AccountService();
 //        VideoService videoService = new VideoService();
-//        accountService.createAccount(); // 계정생성
-//        accountService.deleteAccount(3); // 계정삭제
+        accountService.createAccount(); // 계정생성
+//        accountService.deleteAccount(14); // 계정삭제
 //        accountService.updateAccount(3); // 계정수정
 //        videoService.uploadVideo();
 

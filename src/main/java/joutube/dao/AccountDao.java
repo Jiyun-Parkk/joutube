@@ -3,10 +3,7 @@ package main.java.joutube.dao;
 import main.java.joutube.domain.Account;
 import main.java.joutube.util.DBUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class AccountDao {
 
@@ -16,15 +13,18 @@ public class AccountDao {
                 "values (?, ?, ?, ?)";
         try (
                 Connection connection = DBUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(createAccountSQL);
+                PreparedStatement statement = connection.prepareStatement(createAccountSQL, Statement.RETURN_GENERATED_KEYS);
 
         ) {
             statement.setString(1, account.getName());
             statement.setString(2, account.getProfileImage());
             statement.setString(3, account.getEmail());
             statement.setString(4, account.getPassword());
-            int createdAccount = statement.executeUpdate();
-            channelDao.createChannel(createdAccount);
+            statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                channelDao.createChannel(resultSet.getInt(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
