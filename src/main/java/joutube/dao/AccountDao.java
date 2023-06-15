@@ -64,13 +64,34 @@ public class AccountDao {
     public int deleteAccount(int id) {
         int affectedRow = 0;
         String deleteAccountSQL = "delete from account where id = ?";
+        String selectChannelSQL = "select id from channel where account_id = ?";
+        String deleteChannelSQl = "delete from channel where account_id = ?";
+        String deleteVideoSQL = "delete from video where channel_id = ?";
         try (
                 Connection connection = DBUtil.getConnection();
-                PreparedStatement statement = connection.prepareStatement(deleteAccountSQL);
+                PreparedStatement accountStatement = connection.prepareStatement(deleteAccountSQL);
+                PreparedStatement getChannelStatement = connection.prepareStatement(selectChannelSQL);
+                PreparedStatement channelStatement = connection.prepareStatement(deleteChannelSQl);
+                PreparedStatement videoStatement = connection.prepareStatement(deleteVideoSQL);
 
         ) {
-            statement.setInt(1, id);
-            affectedRow = statement.executeUpdate();
+            // channel id 가져오기
+            getChannelStatement.setInt(1,id);
+            ResultSet channelResult = getChannelStatement.executeQuery();
+            channelResult.next();
+            int channelId = channelResult.getInt("id");
+
+            //video 삭제
+            videoStatement.setInt(1, channelId);
+            videoStatement.executeUpdate();
+
+            //channel 삭제
+            channelStatement.setInt(1, id);
+            channelStatement.executeUpdate();
+
+            //계정삭제
+            accountStatement.setInt(1, id);
+            affectedRow = accountStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

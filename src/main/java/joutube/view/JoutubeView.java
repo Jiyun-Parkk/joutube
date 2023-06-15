@@ -6,7 +6,7 @@ public class JoutubeView {
 
     private JoutubeView(){}
 
-    public static JoutubeView get윤JoutubeView() {
+    public static JoutubeView getJoutubeView() {
         return JOUTUBE_VIEW;
     }
 
