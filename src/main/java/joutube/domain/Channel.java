@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class Channel {
     private int id;
-    private Account account;
+    private int account_id;
     private long subscriber;
     private long video_count;
 }
