@@ -22,4 +22,19 @@ public class ChannelDao {
         }
     }
 
+    public void updateChannel(int count, int id) {
+        String updateChannelSQL = "update channel set video_count = ? where id = ?";
+        try (
+                Connection connection = DBUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(updateChannelSQL);
+        ) {
+            statement.setInt(1,count);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

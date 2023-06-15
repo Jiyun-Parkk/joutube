@@ -10,7 +10,7 @@ public class App {
 //        accountService.createAccount(); // 계정생성
 //        accountService.deleteAccount(15); // 계정삭제
 //        accountService.updateAccount(3); // 계정수정
-//        videoService.uploadVideo();
+        videoService.uploadVideo();
 
     }
 }
